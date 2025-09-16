@@ -1,0 +1,9 @@
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_UID: "${HOST_UID}"
+        USER_GID: "${HOST_GID}"
+    image: ros_image

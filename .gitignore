@@ -1,0 +1,12 @@
+src/
+log/
+install/
+build/
+.vscode/
+deb_dir/
+debian/
+.devcontainer/.bash_history
+.devcontainer/.env
+*.repos
+
+.idea/
