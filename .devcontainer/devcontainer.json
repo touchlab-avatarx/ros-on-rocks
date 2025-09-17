@@ -1,0 +1,86 @@
+{
+  "name": "ros2",
+  "initializeCommand": ".devcontainer/build-devcontainer.sh",
+  "runArgs": [
+        "--env-file", ".env"
+    ],
+  "dockerComposeFile": ["dev.yml"],
+  "runServices": ["dev"],
+  "service": "dev",
+  "workspaceFolder": "/ros2",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "cpplint.cpplintPath": "/usr/bin/ament_cpplint",
+        "C_Cpp.dimInactiveRegions": false,
+        "git-graph.maxDepthOfRepoSearch": 10,
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.autopep8"
+        },
+        "python.formatting.provider": "black",
+        "python.envFile": "${workspaceFolder}/.vscode/colcon.env",
+        "python.analysis.autoSearchPaths": true,
+        "cSpell.language": "en-GB",
+        "fileHeaderComment.parameter": {
+          "*": {
+          "commentbegin": "//",
+          "commentprefix": "//",
+          "commentend": "//",
+          "company": "Touchlab Limited"
+          }
+        },
+        "fileHeaderComment.template": {
+          "*": [
+          "${commentprefix} Copyright (c) ${year} Touchlab Limited. All Rights Reserved",
+          "${commentprefix} Unauthorized copying or modifications of this file, via any medium is strictly prohibited.",
+          ]
+        },
+        "editor.tabSize": 2,
+        "editor.rulers": [
+          100
+        ],
+        "ros.distro": "humble",
+        "search.exclude": {
+          "**/build": true,
+          "**/install": true,
+          "**/log": true
+        },
+        "git.autorefresh": true,
+        "cSpell.words": [
+          "modbus",
+          "onrobot"
+        ],
+        "colcon.provideTasks": true,
+      },
+      "extensions": [
+        "ms-vscode.cpptools-extension-pack",
+        "ms-iot.vscode-ros",
+        "smilerobotics.urdf",
+        "ms-python.python",
+        "ms-python.autopep8",
+        "ms-python.black-formatter",
+        "njpwerner.autodocstring",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.remote-ssh",
+        "twxs.cmake",
+        "ms-vscode.cmake-tools",
+        "mhutchie.git-graph",
+        "shardulm94.trailing-spaces",
+        "xaver.clang-format",
+        "mine.cpplint",
+        "doi.fileheadercomment",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "lextudio.restructuredtext",
+        "trond-snekvik.simple-rst",
+        "deitry.colcon-helper",
+        "spencerwmiles.vscode-task-buttons",
+        "slevesque.vscode-3dviewer",
+        "matepek.vscode-catch2-test-adapter",
+        "msfukui.eof-mark",
+        "nonanonno.vscode-ros2",
+        "GitHub.copilot",
+      ]
+    }
+  }
+}

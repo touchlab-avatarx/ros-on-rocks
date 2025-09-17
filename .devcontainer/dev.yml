@@ -1,0 +1,32 @@
+services:
+  dev:
+    image: ros_image
+    container_name: dev
+    privileged: true
+    network_mode: host
+    volumes:
+      - ${REPO_PATH}:/ros2:rw
+      - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev:rw
+      - /run/udev:/run/udev:ro
+    cap_add:
+      - SYS_NICE
+      - SYS_RAWIO
+    ulimits:
+      rtprio: 99
+      rttime: -1
+      memlock: 8428281856
+    device_cgroup_rules:
+      - "c 188:* rmw"
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME}
+      - GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL}
+      - GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME}
+      - GIT_AUTHOR_EMAIL=${GIT_AUTHOR_EMAIL}
+    stdin_open: true
+    tty: true
+    user: "${HOST_UID}:${HOST_GID}"
+    command: ["/bin/bash"]
