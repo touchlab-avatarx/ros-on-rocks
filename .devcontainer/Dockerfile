@@ -28,11 +28,11 @@ RUN apt-get update && \
 # PROJECT-SPECIFIC DEPENDENCIES (CUSTOMIZE THESE)
 # Uncomment and modify the sections you need for your project:
 
-# # Basic ROS2 packages
-# RUN apt-get update && apt-get install -y \
-#     ros-humble-rclcpp ros-humble-rclpy \
-#     ros-humble-std-msgs ros-humble-geometry-msgs \
-#     && rm -rf /var/lib/apt/lists/*
+# Basic ROS2 packages (needed for examples)
+RUN apt-get update && apt-get install -y \
+    ros-humble-rclcpp ros-humble-rclpy \
+    ros-humble-std-msgs ros-humble-geometry-msgs \
+    && rm -rf /var/lib/apt/lists/*
 
 # # URDF and visualization
 # RUN apt-get update && apt-get install -y \
@@ -71,11 +71,11 @@ RUN apt-get update && \
 # # Additional Python packages
 # RUN pip3 install numpy pandas matplotlib
 
+# Add user to video group to allow access to webcam
+RUN usermod --append --groups dialout,cdrom,sudo,dip,video,plugdev $USERNAME
+
 # Switch from root to user
 USER $USERNAME
-
-# Add user to video group to allow access to webcam
-RUN sudo usermod --append --groups dialout,cdrom,sudo,dip,video,plugdev $USERNAME
 
 # Source the ROS setup file
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
@@ -83,6 +83,9 @@ COPY source.bash /
 COPY ros_entrypoint.sh /
 RUN echo "source /source.bash" >> ~/.bashrc
 RUN echo 'export PATH=/usr/bin:$PATH' >> /home/$USERNAME/.bashrc
+
+# Ensure the user has a proper shell environment
+RUN echo 'export SHELL=/bin/bash' >> /home/$USERNAME/.bashrc
 
 # PROJECT-SPECIFIC PYTHON PACKAGES (CUSTOMIZE THESE)
 # Uncomment and add the Python packages you need:

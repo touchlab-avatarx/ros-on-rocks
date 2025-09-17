@@ -4,8 +4,6 @@ services:
     container_name: dev
     privileged: true
     network_mode: host
-    devices:
-      - "/dev/dri:/dev/dri"
     volumes:
       - ${REPO_PATH}:/ros2:rw
       - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw
@@ -31,4 +29,4 @@ services:
     stdin_open: true
     tty: true
     user: "${HOST_UID}:${HOST_GID}"
-    command: bash
+    command: ["/bin/bash"]

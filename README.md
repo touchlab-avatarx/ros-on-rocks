@@ -1,4 +1,28 @@
-# 🚀 Touchlab ROS Docker Setup Guide
+# 🚀 ROS2 Development Container Template
+
+This is a **template repository** for creating ROS2 development containers with a **working talker/listener example**.
+
+## 🎯 Quick Start
+
+1. **Build the container**: `./build-devcontainer.sh`
+2. **Import dependencies**: `vcs import src < src/laucher/deps.repos`
+3. **Build packages**: `colcon build`
+4. **Run the example**: `docker compose -f src/laucher/services.yml up`
+
+## 📝 Working Example
+
+This template includes a complete **talker/listener** example:
+
+- **Talker**: Publishes messages to `/topic`
+- **Listener**: Subscribes to `/topic` and prints received messages
+- **Python Talker**: Alternative Python implementation
+
+### Files:
+- `src/laucher/deps.repos` - ROS2 examples repository
+- `src/laucher/services.yml` - Docker Compose configuration
+- `src/laucher/launch.sh` - Helper script to manage services
+
+## 🚀 Touchlab ROS Docker Setup Guide
 
 Welcome to the ROS Docker Setup! This guide will help you set up, run, and manage ROS services inside Docker containers using Docker Compose. Everything is designed to be modular, reusable, and easy to configure. (Hopefullly, suggestions are welcome.)
 
