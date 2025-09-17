@@ -1,159 +1,291 @@
-# 🚀 ROS2 Development Container Template
+<div align="center">
 
-This is a **template repository** for creating ROS2 development containers with a **working talker/listener example**.
+# 🐳 ROS-on-Rocks 🚀
 
-## 🎯 Quick Start
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![ROS2](https://img.shields.io/badge/ROS2-22314E?style=for-the-badge&logo=ros&logoColor=white)
+![Ubuntu](https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
 
-1. **Build the container**: `./build-devcontainer.sh`
-2. **Import dependencies**: `vcs import src < src/laucher/deps.repos`
-3. **Build packages**: `colcon build`
-4. **Run the example**: `docker compose -f src/laucher/services.yml up`
+<img src="ros-on-rocks.png" alt="ROS-on-Rocks Logo" width="300" height="200">
 
-## 📝 Working Example
+**A Modern ROS2 Development Environment Template**
 
-This template includes a complete **talker/listener** example:
+*Rock-solid ROS2 development with Docker containers* 🎯
 
-- **Talker**: Publishes messages to `/topic`
-- **Listener**: Subscribes to `/topic` and prints received messages
-- **Python Talker**: Alternative Python implementation
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![Contributors](https://img.shields.io/github/contributors/your-username/ros-on-rocks)](https://github.com/your-username/ros-on-rocks/graphs/contributors)
 
-### Files:
-- `src/laucher/deps.repos` - ROS2 examples repository
-- `src/laucher/services.yml` - Docker Compose configuration
-- `src/laucher/launch.sh` - Helper script to manage services
+</div>
 
-## 🚀 Touchlab ROS Docker Setup Guide
+---
 
-Welcome to the ROS Docker Setup! This guide will help you set up, run, and manage ROS services inside Docker containers using Docker Compose. Everything is designed to be modular, reusable, and easy to configure. (Hopefullly, suggestions are welcome.)
+## 🌟 What is ROS-on-Rocks?
 
+**ROS-on-Rocks** is a comprehensive template repository that provides a **modern, containerized development environment** for ROS2 projects. It combines the power of Docker with ROS2 to create a consistent, reproducible, and easy-to-setup development experience.
 
-## 📌 Prerequisites
+### ✨ Key Features
 
-Before running this setup, ensure you have the following installed on your machine:
+- 🐳 **Dockerized Environment** - Consistent development across all platforms
+- 🚀 **ROS2 Humble Ready** - Latest ROS2 distribution with all essential tools
+- 🛠️ **VS Code Integration** - Full devcontainer support for seamless development
+- 📦 **Template-Based** - Customizable for different project types
+- 🔧 **Working Examples** - Complete talker/listener demonstration
+- 🌐 **Open Source** - MIT licensed, community-driven
 
-#### 1️⃣ Install Docker
+---
 
-* Follow Docker Installation Guide to install Docker.
+## 🚀 Quick Start
 
-#### 2️⃣ Install Docker Compose
-* [Docker Compose](https://docs.docker.com/compose/install/linux/#install-using-the-repository) allows you to manage multi-container applications.
+### Prerequisites
 
-#### 3️⃣ Introsepection (Optional)
-* Install [lazydocker](https://github.com/jesseduffield/lazydocker) 
+- [Docker](https://docs.docker.com/get-docker/) (20.10+)
+- [Docker Compose](https://docs.docker.com/compose/install/) (2.0+)
+- [VS Code](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
-#### 📂 Project Structure
+### 🎯 Get Started in 3 Steps
 
-This section explains how the files and directories should be organised.
+1. **Clone the Template**
+   ```bash
+   git clone https://github.com/your-username/ros-on-rocks.git my-ros-project
+   cd my-ros-project
+   ```
 
-```graphql
-workspace/
-│── launch.sh                  # Main script to manage services
-│── services.yml                 # Defines all ROS services
-│── .devcontainer/               # Folder for Docker-related files
-│   ├── Dockerfile               # Docker build file
-│   ├── image.yml                # ROS image build configurations
-│   ├── dev.yml                  # dev service configurations (used by vscode)
-│   ├── devcontainer.json        # vscode specific configuration
-│   ├── build-devcontainer.yml   # simple script used by devcontainer.josn to build image from image.yml
-│   │── .env                     # Environment configuration file (🔧 UPDATE THIS!)
-│   │── source.bash              # Bashrc additions for docker services  
-│── src/                         # Directory for all ROS packages
-│   ├── launcher/                # (🔧 ADD THIS!) while setting up environment
-│   ├   ├──services.yml          # Compose file for all ros services launch
-    ├   ├──launch.sh             # Helper script to start stop containers
-│   ├── package2/
-│   ├── package3/
+2. **Open in VS Code**
+   ```bash
+   code .
+   # Click "Reopen in Container" when prompted
+   ```
+
+3. **Run the Example**
+   ```bash
+   # Import dependencies
+   vcs import src < src/laucher/deps.repos
+   
+   # Build packages
+   colcon build
+   
+   # Run talker/listener example
+   docker compose -f src/laucher/services.yml up
+   ```
+
+**That's it!** 🎉 You now have a fully functional ROS2 development environment.
+
+---
+
+## 📁 Project Structure
+
+```
+ros-on-rocks/
+├── 🐳 .devcontainer/           # Docker configuration
+│   ├── Dockerfile              # Main container template
+│   ├── dev.yml                 # VS Code devcontainer config
+│   ├── build-devcontainer.sh   # Build script
+│   └── source.bash             # ROS2 environment setup
+├── 📦 src/laucher/             # Example services
+│   ├── deps.repos              # ROS2 dependencies
+│   ├── services.yml            # Docker Compose services
+│   └── launch.sh               # Service management script
+├── 📄 README.md                # This file
+└── 🖼️ ros-on-rocks.png         # Project logo
 ```
 
+---
 
-### 🚀 SETUP
+## 🛠️ Customization Guide
 
-## 📝 Step 1: Configure the .env File (.devcontainer/.env)
+### Dockerfile Template
 
-This will be generated by `build-devcontainer.sh` first time it's called.
-If you need to update the values in the file, delete `.env` and re-run the script.
+The `Dockerfile` is designed as a template with commented sections:
 
-To pass GIT identity to the docker, make sure you set up your `.bashrc` on the host system with these variables and replace the name and email with your details:
+```dockerfile
+# PROJECT-SPECIFIC DEPENDENCIES (CUSTOMIZE THESE)
+# Uncomment the sections you need:
+
+# Basic ROS2 packages
+RUN apt-get update && apt-get install -y \
+    ros-humble-rclcpp ros-humble-rclpy \
+    ros-humble-std-msgs ros-humble-geometry-msgs \
+    && rm -rf /var/lib/apt/lists/*
+
+# URDF and visualization
+# RUN apt-get update && apt-get install -y \
+#     ros-humble-xacro ros-humble-joint-state-publisher-gui ros-humble-rviz2 \
+#     liburdfdom-tools \
+#     && rm -rf /var/lib/apt/lists/*
+
+# MoveIt motion planning
+# RUN apt-get update && apt-get install -y \
+#     ros-humble-moveit ros-humble-moveit-ros-planning-interface \
+#     ros-humble-moveit-kinematics ros-humble-moveit-planners-ompl \
+#     && rm -rf /var/lib/apt/lists/*
 ```
-GIT_COMMITTER_NAME=yourname
-GIT_COMMITTER_EMAIL=you@example.com
-GIT_AUTHOR_NAME=yourname
-GIT_AUTHOR_EMAIL=you@example.com
+
+### Available Sections
+
+- 🤖 **Basic ROS2** - Core packages for simple projects
+- 🎨 **URDF/Visualization** - Robot description and RViz
+- 🦾 **MoveIt** - Motion planning and manipulation
+- 🎮 **Control Systems** - ROS2 control framework
+- 🌍 **Simulation** - Gazebo integration
+- 🖥️ **GUI Tools** - RQT and visualization tools
+- 🔍 **Development** - Linting and debugging tools
+
+---
+
+## 🎮 Working Example
+
+This template includes a **complete talker/listener demonstration**:
+
+### Services
+- **`talker`** - C++ publisher sending messages to `/topic`
+- **`listener`** - C++ subscriber receiving and printing messages
+- **`py_talker`** - Python publisher (alternative implementation)
+
+### Commands
+```bash
+# Start the example
+docker compose -f src/laucher/services.yml up
+
+# In another terminal, monitor topics
+docker exec -it talker ros2 topic list
+docker exec -it talker ros2 topic echo /topic
 ```
 
-## 📝 Step 2: Add ROS Services in `services.yml`
+---
 
-All ROS services are defined in services.yml.
-🔧 Example: Adding ROS Services 
+## 🤝 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+### 🐛 Bug Reports
+- Use GitHub Issues to report bugs
+- Include system information and error logs
+- Provide steps to reproduce the issue
+
+### 💡 Feature Requests
+- Suggest new features via GitHub Issues
+- Explain the use case and benefits
+- Consider contributing the implementation
+
+### 🔧 Code Contributions
+
+1. **Fork the repository**
+   ```bash
+   git clone https://github.com/your-username/ros-on-rocks.git
+   cd ros-on-rocks
+   ```
+
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make your changes**
+   - Follow the existing code style
+   - Add tests if applicable
+   - Update documentation
+
+4. **Test your changes**
+   ```bash
+   ./build-devcontainer.sh
+   # Test your changes in the container
+   ```
+
+5. **Submit a pull request**
+   - Provide a clear description
+   - Link any related issues
+   - Include screenshots if UI changes
+
+### 📋 Development Guidelines
+
+- **Code Style**: Follow existing patterns and conventions
+- **Documentation**: Update README and comments as needed
+- **Testing**: Test changes in the container environment
+- **Commits**: Use clear, descriptive commit messages
+
+---
+
+## 🏗️ Advanced Usage
+
+### Custom Dependencies
+
+Add your project-specific packages to `src/laucher/deps.repos`:
 
 ```yaml
-x-common-parameters: &common-parameters
-  image: ros_image
-  restart: unless-stopped
-  network_mode: host
-  devices:
-    - "/dev/dri:/dev/dri"
-  volumes:
-    - ${REPO_PATH}:/ros2:rw
-    - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw
-    - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    - /dev:/dev:rw
-    - /run/udev:/run/udev:ro
-  cap_add:
-    - SYS_NICE
-    - SYS_RAWIO
-  ulimits:
-    rtprio: 99
-    rttime: -1
-    memlock: 8428281856
-  device_cgroup_rules:
-    - "c 188:* rmw"
-  environment:
-    - DISPLAY=${DISPLAY}
-    - QT_X11_NO_MITSHM=1
-  stdin_open: true
-  tty: true
-  user: "${HOST_UID}:${HOST_GID}"
-  command: bash
+repositories:
+  my_custom_package:
+    type: git
+    url: https://github.com/your-org/my-package.git
+    version: main
+```
 
+### Multiple Services
+
+Extend `src/laucher/services.yml` for complex applications:
+
+```yaml
 services:
-  hz:
+  my_service:
     <<: *common-parameters
-    container_name: hz
+    container_name: my_service
+    command: ["ros2", "run", "my_package", "my_node"]
     depends_on:
-      - publisher
-    command: ["ros2", "topic", "hz", "/test"]
-
-  publisher:
-    <<: *common-parameters
-    container_name: publisher
-    command: ["ros2", "topic", "pub", "/test", "std_msgs/msg/String", "data: 'Hello'"]
-
+      - talker
 ```
 
-📌 Key Notes
+### Environment Variables
 
-x-common-parameters defines shared settings for all ROS services.
-Each service inherits the common settings.
-Use depends_on to control launch priority (i.e., one service starts before another).
+Customize the environment in `.devcontainer/dev.yml`:
 
-
-## 📝 Step 3: Launch Services with `compose_manager`
-
-Use the `compose_manager` script to manage your ROS services. This is part of [tl_startup](https://github.com/touchlab-avatarx/tl_startup). Run the command with `-h` to see available commands and parameters.
-
-Example:
-```
-cd <my_launcher_path>
-compose_manager start
-# ...
-compose_manager stop
+```yaml
+environment:
+  - ROS_DOMAIN_ID=42
+  - CUSTOM_VAR=value
 ```
 
-From any directory:
-```
-compose_manager --work-path <my_launcher_path> start
-# ...
-compose_manager --work-path <my_launcher_path> stop
-```
+---
+
+## 📚 Resources
+
+### Documentation
+- [ROS2 Documentation](https://docs.ros.org/en/humble/)
+- [Docker Documentation](https://docs.docker.com/)
+- [VS Code Dev Containers](https://code.visualstudio.com/docs/remote/containers)
+
+### Community
+- [ROS Discourse](https://discourse.ros.org/)
+- [ROS Answers](https://answers.ros.org/)
+- [Docker Community](https://forums.docker.com/)
+
+### Related Projects
+- [ROS2 Docker Images](https://hub.docker.com/_/ros)
+- [MoveIt Docker](https://github.com/ros-planning/moveit_docker)
+- [Gazebo Docker](https://github.com/osrf/docker_images)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **ROS2 Community** - For the amazing robotics framework
+- **Docker Team** - For containerization technology
+- **VS Code Team** - For excellent development tools
+- **Contributors** - For making this project better
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the ROS-on-Rocks Community**
+
+[⭐ Star this repo](https://github.com/your-username/ros-on-rocks) | [🐛 Report Bug](https://github.com/your-username/ros-on-rocks/issues) | [💡 Request Feature](https://github.com/your-username/ros-on-rocks/issues) | [📖 Documentation](https://github.com/your-username/ros-on-rocks/wiki)
+
+</div>
 
