@@ -1,2 +1,2 @@
 #!/bin/bash
-docker image build ./ --tag vladimirivan/ros:jazzy-example-base $@
+docker image build ./ --tag touchlab/ros:jazzy-example-base $@

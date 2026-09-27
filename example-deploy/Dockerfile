@@ -1,5 +1,5 @@
 # Production image: workspace built in Release mode and installed (no symlink install).
-FROM vladimirivan/ros:jazzy-example-base
+FROM touchlab/ros:jazzy-example-base
 
 # Run user baked into the image. Rebuild with --build-arg USER_UID=... if your host UID differs.
 ARG USERNAME=user

@@ -1,5 +1,5 @@
 # Base image. Change this to an image that has your binary dependencies installed.
-FROM vladimirivan/ros:jazzy-example-base
+FROM touchlab/ros:jazzy-example-base
 
 # Add vscode user with same UID and GID as your host system
 # (copied from https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)

@@ -1,7 +1,7 @@
 x-common-parameters: &common-parameters
   ## Image name, make this unique to your project if you want to build multiple devcontainers
   ## on the same system.
-  image: vladimirivan/ros:jazzy-example-deploy
+  image: touchlab/ros:jazzy-example-deploy
   restart: unless-stopped
   ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
   ## devcontainer. You can change the name of the network if you want, but make sure it is unique
