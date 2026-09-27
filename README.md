@@ -54,7 +54,7 @@
    cd my-ros-project
    ```
 
-2. **Build the base image** (tags `vladimirivan/ros:jazzy-example-base`)
+2. **Build the base image** (tags `touchlab/ros:jazzy-example-base`)
    ```bash
    cd example-base && ./build.bash && cd ..
    ```
@@ -110,9 +110,9 @@ ros-on-rocks/
 
 ```
 ros:jazzy-ros-base-noble
-  └─ example-base      ──build.bash──▶ vladimirivan/ros:jazzy-example-base
+  └─ example-base      ──build.bash──▶ touchlab/ros:jazzy-example-base
        ├─ .devcontainer ──(auto)──────▶ ros_jazzy_image          (dev.yml, example-service)
-       └─ example-deploy ──deploy.sh──▶ vladimirivan/ros:jazzy-example-deploy
+       └─ example-deploy ──deploy.sh──▶ touchlab/ros:jazzy-example-deploy
 ```
 
 Add apt/ROS dependencies to `example-base/Dockerfile`, not to the dev image. Per-user tools go in `example-base/install-user-extras.sh`.
