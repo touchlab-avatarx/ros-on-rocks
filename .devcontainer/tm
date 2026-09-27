@@ -1,0 +1,137 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Wrapper around tmux to connect to the tmux server running in the devcontainer.
+# This allows to monitor sessions running in the container from the host machine.
+
+declare -a display_list
+declare -a target_type   # "host" or "container"
+declare -a target_name   # session name
+declare -a target_container  # container name (empty for host)
+
+display_list=()
+
+# 1️⃣ Collect host tmux sessions
+if command -v tmux >/dev/null 2>&1; then
+  host_has_tmux=1
+  while IFS= read -r session; do
+    [ -n "$session" ] || continue
+    display_list+=("$session")
+    target_type+=("host")
+    target_name+=("$session")
+    target_container+=("")
+  done < <(tmux list-sessions -F "#{session_name}" 2>/dev/null || true)
+else
+  host_has_tmux=0
+  echo "⚠️  tmux is not installed on this host; skipping host sessions."
+fi
+
+if command -v docker >/dev/null 2>&1; then
+  # 2️⃣ Collect running containers named vcs-* or dev*
+  mapfile -t containers < <(
+    docker ps --format "{{.Names}}" | grep -E '^(vcs-|dev)' || true
+  )
+
+  # 3️⃣ Collect tmux sessions inside each container (skip containers without tmux)
+  for container in "${containers[@]}"; do
+    # Probe first: without this, docker's "executable file not found" complaint
+    # can end up on stdout and be mistaken for a session name.
+    if ! docker exec "$container" sh -c 'command -v tmux' >/dev/null 2>&1; then
+      continue
+    fi
+
+    while IFS= read -r session; do
+      [ -n "$session" ] || continue
+      display_list+=("[📦 $container] $session")
+      target_type+=("container")
+      target_name+=("$session")
+      target_container+=("$container")
+    done < <(
+      docker exec "$container" tmux list-sessions -F "#{session_name}" 2>/dev/null || true
+    )
+  done
+fi
+
+# 4️⃣ Warn if nothing found (still offer to create a new session)
+if [ ${#display_list[@]} -eq 0 ]; then
+  echo "⚠️  No tmux sessions found (host or containers)."
+fi
+
+# 5️⃣ Always offer creating a new local session as the last entry
+display_list+=("[new session]")
+target_type+=("new")
+target_name+=("")
+target_container+=("")
+
+# 6️⃣ Interactive selection loop
+echo "Select a tmux session (number, 'q' or 'exit' to quit):"
+
+while true; do
+  for i in "${!display_list[@]}"; do
+    printf "%d) %s\n" "$((i+1))" "${display_list[$i]}"
+  done
+
+  read -rp "> " input
+
+  case "$input" in
+    q|Q|exit|EXIT)
+      echo "Exiting."
+      exit 0
+      ;;
+    ''|*[!0-9]*)
+      echo "Invalid selection. Enter a number, 'q', or 'exit'."
+      ;;
+    *)
+      index=$((input - 1))
+      if [ "$index" -ge 0 ] && [ "$index" -lt "${#display_list[@]}" ]; then
+        break
+      else
+        echo "Invalid number."
+      fi
+      ;;
+  esac
+done
+
+type="${target_type[$index]}"
+session="${target_name[$index]}"
+container="${target_container[$index]}"
+
+# 7️⃣ Attach appropriately (or create a new local session)
+if [ "$type" = "new" ]; then
+  if [ "$host_has_tmux" -ne 1 ]; then
+    echo "❌ tmux is not installed here; cannot create a local session."
+    exit 1
+  fi
+
+  while true; do
+    read -rp "Session name: " new_name
+
+    case "$new_name" in
+      '')
+        echo "Name cannot be empty."
+        ;;
+      *[:.]*)
+        echo "Name cannot contain ':' or '.'."
+        ;;
+      *)
+        if tmux has-session -t "=$new_name" 2>/dev/null; then
+          echo "Session '$new_name' already exists."
+        else
+          break
+        fi
+        ;;
+    esac
+  done
+
+  echo "➡ Creating new session '$new_name'..."
+  exec tmux new-session -s "$new_name"
+fi
+
+echo "➡ Attaching..."
+
+if [ "$type" = "host" ]; then
+  exec tmux attach -t "$session"
+else
+  exec docker exec -it "$container" tmux attach -t "$session"
+fi

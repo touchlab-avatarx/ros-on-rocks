@@ -1,12 +1,16 @@
-src/
+# devcontainer
+.devcontainer/.bash_history
+.devcontainer/.env
+
+# ROS workspace sources and build artefacts
 log/
 install/
 build/
-.vscode/
-deb_dir/
-debian/
-.devcontainer/.bash_history
-.devcontainer/.env
-*.repos
+src/
+tmp/
 
-.idea/
+# VS Code settings
+.vscode/
+
+# Other
+*.repos
