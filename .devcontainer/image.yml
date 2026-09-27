@@ -2,8 +2,13 @@ services:
   builder:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile # Dockerfile name (default is 'Dockerfile')
+      # Match user and group IDs of the host user to avoid permission issues when mounting volumes.
       args:
-        USER_UID: "${HOST_UID}"
-        USER_GID: "${HOST_GID}"
-    image: ros_image
+        USER_UID: "${HOST_UID}" # User ID of the host user (from .env file)
+        USER_GID: "${HOST_GID}" # Group ID of the host user (from .env file)
+        DOCKER_GID: "${HOST_DOCKER_GID}" # Docker group ID of the host user (from .env file)
+    # Image name, make this unique to your project if you want to build multiple devcontainers
+    # on the same system.
+    # You have to match the name of the image in dev.yml to this name.
+    image: ros_${ROS_DISTRO}_image

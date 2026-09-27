@@ -1,19 +1,22 @@
 {
-  "name": "ros2",
+  // Container setup
+  "name": "ros2",  // Name of the devcontainer - change this if you are running multiple containers in the same workspace
+  "remoteUser": "user",  // This has to match the user in the Dockerfile
   "initializeCommand": ".devcontainer/build-devcontainer.sh",
   "runArgs": [
-        "--env-file", ".env"
+        "--env-file", ".env"  // Edit the .env file to change the ROS2 distribution and domain ID after setup
     ],
   "dockerComposeFile": ["dev.yml"],
   "runServices": ["dev"],
   "service": "dev",
+  "shutdownAction": "none", // Don't stop the container when closing the workspace, useful for remote editing and debugging
   "workspaceFolder": "/ros2",
+  // Settings for VS Code
   "customizations": {
     "vscode": {
       "settings": {
+        // Linting and formatting (matches ROS 2 style guides)
         "cpplint.cpplintPath": "/usr/bin/ament_cpplint",
-        "C_Cpp.dimInactiveRegions": false,
-        "git-graph.maxDepthOfRepoSearch": 10,
         "[python]": {
           "editor.defaultFormatter": "ms-python.autopep8"
         },
@@ -21,37 +24,28 @@
         "python.envFile": "${workspaceFolder}/.vscode/colcon.env",
         "python.analysis.autoSearchPaths": true,
         "cSpell.language": "en-GB",
-        "fileHeaderComment.parameter": {
-          "*": {
-          "commentbegin": "//",
-          "commentprefix": "//",
-          "commentend": "//",
-          "company": "Touchlab Limited"
-          }
-        },
-        "fileHeaderComment.template": {
-          "*": [
-          "${commentprefix} Copyright (c) ${year} Touchlab Limited. All Rights Reserved",
-          "${commentprefix} Unauthorized copying or modifications of this file, via any medium is strictly prohibited.",
-          ]
-        },
+        "C_Cpp.dimInactiveRegions": false,
         "editor.tabSize": 2,
         "editor.rulers": [
           100
         ],
-        "ros.distro": "humble",
         "search.exclude": {
           "**/build": true,
           "**/install": true,
           "**/log": true
         },
+        // Git settings
         "git.autorefresh": true,
-        "cSpell.words": [
-          "modbus",
-          "onrobot"
+        "git-graph.maxDepthOfRepoSearch": 10,
+        "git.autoRepositoryDetection": "subFolders",
+        "git.repositoryScanMaxDepth": 10,
+        "git.scanRepositories": [
+          "src/*"  // Scan for git repositories in the src folder
         ],
         "colcon.provideTasks": true,
       },
+      // Extensions to install in the devcontainer
+      // Customise this list to add/remove extensions as needed
       "extensions": [
         "ms-vscode.cpptools-extension-pack",
         "ms-iot.vscode-ros",
@@ -68,7 +62,6 @@
         "shardulm94.trailing-spaces",
         "xaver.clang-format",
         "mine.cpplint",
-        "doi.fileheadercomment",
         "streetsidesoftware.code-spell-checker",
         "ms-azuretools.vscode-docker",
         "lextudio.restructuredtext",
@@ -80,6 +73,7 @@
         "msfukui.eof-mark",
         "nonanonno.vscode-ros2",
         "GitHub.copilot",
+        "anthropic.claude-code",
       ]
     }
   }

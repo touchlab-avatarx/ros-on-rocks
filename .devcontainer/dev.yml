@@ -1,15 +1,49 @@
 services:
   dev:
-    image: ros_image
+    ## Image name, make this unique to your project if you want to build multiple devcontainers
+    ## on the same system.
+    image: ros_${ROS_DISTRO}_image
+    ## This is the name of the container that will be created. You can change it to whatever you
+    ## want, but make sure it is unique if you are running multiple workspaces on the same system.
+    ## This also has to match the "service" and runServices fields in devcontainer.json.
     container_name: dev
-    privileged: true
-    network_mode: host
+    ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
+    ## devcontainer. You can change the name of the network if you want, but make sure it is unique
+    ## if you are running multiple workspaces on the same system.
+    networks:
+      - ros2_network
+    ## Aleternative to the isolated network is to use the host network. This is not recommended,
+    ## but it can be useful for debugging. Uncomment the following line to use the host network.
+    # network: host
+    ## Use the host's X11 server for GUI applications. This is required for ROS 2 GUI applications
+    ## to work properly in a devcontainer (e.g. RViz, rqt, ...).
+    ## Option for generic GPU:
+    # devices:
+    #  - "/dev/dri:/dev/dri"
+    ## Option for NVidia GPU (default). Requires the NVIDIA driver and NVIDIA Container Toolkit on
+    ## the host, otherwise comment this out and use the generic GPU option above.
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
+    ## Priviledged mode for root access to some devices (e.g. ethercat).
+    ## DANGEROUS: This gives the container full access to the host system.
+    ## Use with caution.
+    # privileged: true
+    ## Access to resources on the host machine:
     volumes:
-      - ${REPO_PATH}:/ros2:rw
-      - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /dev:/dev:rw
-      - /run/udev:/run/udev:ro
+      - ${REPO_PATH}:/ros2:rw # workspace
+      - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw # bash history
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # X11 socket (host may need `xhost +local:`)
+      - /dev:/dev:rw # full access to devices (e.g. for USB cameras, LiDARs, etc.) - dangerous
+      - /run/udev:/run/udev:ro # udev rules
+      - claude_data:/home/user/.claude:rw # claude data (optional)
+      - /var/run/docker.sock:/var/run/docker.sock # allow docker in docker (optional)
+    ## Allow the container to use real-time scheduling and lock memory. This is required for some
+    ## applications to work properly in a devcontainer (e.g. for real-time control of robots).
     cap_add:
       - SYS_NICE
       - SYS_RAWIO
@@ -17,16 +51,27 @@ services:
       rtprio: 99
       rttime: -1
       memlock: 8428281856
+    ## Allow the container to access USB devices
     device_cgroup_rules:
       - "c 188:* rmw"
     environment:
-      - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1
-      - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME}
-      - GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL}
-      - GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME}
-      - GIT_AUTHOR_EMAIL=${GIT_AUTHOR_EMAIL}
+      - DISPLAY=${DISPLAY} # Use the host's X11 server for GUI applications
+      - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
+      - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME} # git credentials (optional)
+      - GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL} # git credentials (optional)
+      - GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME} # git credentials (optional)
+      - GIT_AUTHOR_EMAIL=${GIT_AUTHOR_EMAIL} # git credentials (optional)
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID} # ROS 2 domain ID (from .env file)
+      - ROS_DISTRO=${ROS_DISTRO} # ROS 2 distribution (from .env file)
     stdin_open: true
     tty: true
     user: "${HOST_UID}:${HOST_GID}"
-    command: ["/bin/bash"]
+    command: bash
+
+## Use named volumes to persist data across container restarts.
+volumes:
+  claude_data:
+## Use a named network to isolate ROS 2 communication between containers (not needed if you are
+## using the host network).
+networks:
+  ros2_network:

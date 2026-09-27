@@ -1,0 +1,93 @@
+x-common-parameters: &common-parameters
+  ## Image name, make this unique to your project if you want to build multiple devcontainers
+  ## on the same system.
+  image: ros_${ROS_DISTRO}_image
+  restart: unless-stopped
+  ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
+  ## devcontainer. You can change the name of the network if you want, but make sure it is unique
+  ## if you are running multiple workspaces on the same system.
+  networks:
+    - ros2_network
+  ## Aleternative to the isolated network is to use the host network. This is not recommended,
+  ## but it can be useful for debugging. Uncomment the following line to use the host network.
+  ## Use the host's X11 server for GUI applications. This is required for ROS 2 GUI applications
+  ## to work properly in a devcontainer (e.g. RViz, rqt, ...).
+  ## Option for generic GPU:
+  # devices:
+  #  - "/dev/dri:/dev/dri"
+  ## Option for NVidia GPU
+  deploy:
+    resources:
+      reservations:
+        devices:
+        - driver: nvidia
+          count: all
+          capabilities: [gpu]
+  ## Priviledged mode for root access to some devices (e.g. ethercat).
+  ## DANGEROUS: This gives the container full access to the host system.
+  ## Use with caution.
+  # privileged: true
+  ## Access to resources on the host machine:
+  volumes:
+    - ${REPO_PATH}:/ros2:rw # workspace
+    - ${REPO_PATH}/.devcontainer/.bash_history:/.bash_history:rw # bash history
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw # X11 socket
+    - /dev:/dev:rw # full access to devices (e.g. for USB cameras, LiDARs, etc.) - dangerous
+    - /run/udev:/run/udev:ro # udev rules
+    - /var/run/docker.sock:/var/run/docker.sock # allow docker in docker (optional)
+## Allow the container to use real-time scheduling and lock memory. This is required for some
+## applications to work properly in a devcontainer (e.g. for real-time control of robots).
+  cap_add:
+    - SYS_NICE
+    - SYS_RAWIO
+  ulimits:
+    rtprio: 99
+    rttime: -1
+    memlock: 8428281856
+## Allow the container to access USB devices
+  device_cgroup_rules:
+    - "c 188:* rmw"
+  environment:
+    - DISPLAY=${DISPLAY} # Use the host's X11 server for GUI applications
+    - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
+    - ROS_DOMAIN_ID=${ROS_DOMAIN_ID} # ROS 2 domain ID (from .env file)
+    - ROS_DISTRO=${ROS_DISTRO} # ROS 2 distribution (from .env file)
+  stdin_open: true
+  tty: true
+  user: "${HOST_UID}:${HOST_GID}"
+  command: bash
+
+## Use a named network to isolate ROS 2 communication between containers (not needed if you are
+## using the host network).
+networks:
+  ros2_network:
+
+services:
+  hz:
+    <<: *common-parameters # Use the common parameters defined above for this service
+    ## Use a unique name for this container. This is required for the "depends_on" parameter
+    ## below to work properly.
+    container_name: hz
+    ## Use the "depends_on" parameter to ensure that the publisher container is started before the
+    ## hz container. This is required for the hz container to work properly.
+    depends_on:
+      - publisher
+    command: ["ros2", "topic", "hz", "/test"] # ros2 command
+    ## Short wait before forcing node shutdown. This speeds up shutdown if a node or launch file
+    ## hangs. Shutdown is sequential so the shutdown time of each node adds up. Use longer shutdown
+    ## times for nodes that take longer to shutdown (e.g. data logging that needs to finish writing
+    ## to disk, controller nodes, etc.). Default is 10s.
+    stop_grace_period: 0.1s
+
+  publisher:
+    <<: *common-parameters # Use the common parameters defined above for this service
+    ## Use a unique name for this container. This is required for the "depends_on" parameter
+    ## below to work properly.
+    container_name: publisher
+    ## ros2 command
+    command: ["ros2", "topic", "pub", "/test", "std_msgs/msg/String", "data: 'Hello'"]
+    ## Short wait before forcing node shutdown. This speeds up shutdown if a node or launch file
+    ## hangs. Shutdown is sequential so the shutdown time of each node adds up. Use longer shutdown
+    ## times for nodes that take longer to shutdown (e.g. data logging that needs to finish writing
+    ## to disk, controller nodes, etc.). Default is 10s.
+    stop_grace_period: 0.1s
