@@ -6,9 +6,10 @@ Do these steps **before the workshop**, as internet on-site is limited. For deta
 
 ## 💻 Prerequisites
 
+- Laptop: x86_64 CPU (ARM not supported), 4+ cores, 8 GB RAM (16 GB recommended), ~10 GB free disk space, USB port for the workshop stick
+- GPU optional (NVIDIA, Intel or AMD integrated graphics are fine)
 - Linux host, Ubuntu 22.04 or 24.04 (Windows/macOS/WSL2 not tested)
-- ~10 GB free disk space
-- Internet for steps 1–3 and 5a (or the workshop USB stick for 5b)
+- Internet for steps 1–3 and 4a (or the workshop USB stick for 4b)
 
 ---
 
