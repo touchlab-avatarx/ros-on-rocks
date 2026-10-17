@@ -25,6 +25,12 @@ ws() {
 
     # Colcon auto-completion
     source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash
+
+    # Uncomment to restrict ROS2 to localhost only
+    # export ROS_LOCALHOST_ONLY=1
+
+    # Uncomment to restrict to a specific network interface
+    # export ROS_INTERFACE=eth0
 }
 
 # Parses the current git branch and formats it for display in the terminal prompt (optional)

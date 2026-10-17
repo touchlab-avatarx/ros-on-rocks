@@ -167,6 +167,7 @@ Checklist for a new project (humans and AI agents):
    - `container_name: dev` in `dev.yml`, and `service` / `runServices` in `devcontainer.json` to match. Keep a `dev` prefix if you use `tm`.
    - Devcontainer `"name"` in `devcontainer.json`.
    - Network `ros2_network` and service container names in the compose files.
+   - Change the ros2 discovery to localhost or a specific NIC in `.devcontainer/source.bash`
    - Deploy image tag in `example-deploy/deploy.sh` and `example-deploy/compose.yml`.
 4. **`.devcontainer/.env`** is generated once (UID/GID, git identity, repo path, `ROS_DISTRO`, `ROS_DOMAIN_ID`). Set the `GIT_*` variables before the first open. To change values, edit it or delete it to regenerate, then rebuild the container.
 5. **ROS distro**: changing `ROS_DISTRO` needs a base image built for that distro (base `FROM` and `ros-<distro>-*` packages in `example-base/Dockerfile`).
