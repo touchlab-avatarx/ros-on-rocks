@@ -55,6 +55,7 @@ services:
     device_cgroup_rules:
       - "c 188:* rmw"
     environment:
+      - CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN} # Claude code OAuth token (optional)
       - DISPLAY=${DISPLAY} # Use the host's X11 server for GUI applications
       - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
       - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME} # git credentials (optional)

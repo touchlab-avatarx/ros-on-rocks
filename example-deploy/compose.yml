@@ -1,7 +1,7 @@
 x-common-parameters: &common-parameters
   ## Image name, make this unique to your project if you want to build multiple devcontainers
   ## on the same system.
-  image: touchlab/ros:jazzy-example-deploy
+  image: touchlab/ros:lyrical-example-deploy
   restart: unless-stopped
   ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
   ## devcontainer. You can change the name of the network if you want, but make sure it is unique
@@ -49,7 +49,7 @@ x-common-parameters: &common-parameters
     - DISPLAY=${DISPLAY:-:0} # Use the host's X11 server for GUI applications
     - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
     - ROS_DOMAIN_ID=34 # ROS 2 domain ID
-    - ROS_DISTRO=jazzy # ROS 2 distribution
+    - ROS_DISTRO=lyrical # ROS 2 distribution
   stdin_open: true
   tty: true
   command: bash

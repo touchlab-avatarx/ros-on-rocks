@@ -14,3 +14,7 @@ tmp/
 
 # Other
 *.repos
+
+# Claude output
+.claude/
+graphify-out/
