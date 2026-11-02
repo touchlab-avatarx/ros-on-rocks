@@ -13,6 +13,14 @@ RUN apt-get update \
 # Example ROS dependencies
 RUN apt-get update && apt-get install -y \
         ros-lyrical-rviz2 ros-lyrical-rviz-common ros-lyrical-rviz-default-plugins \
+        ros-lyrical-xacro ros-lyrical-ros2-control ros-lyrical-controller-manager \
+        ros-lyrical-hardware-interface ros-lyrical-realtime-tools \
+        ros-lyrical-diagnostic-updater ros-lyrical-diagnostic-msgs \
+        ros-lyrical-joint-state-broadcaster ros-lyrical-ament-cmake \
+        ros-lyrical-pluginlib ros-lyrical-kdl-parser ros-lyrical-urdf libtinyxml2-dev \
+        libboost-dev ros-lyrical-launch-ros ros-lyrical-moveit-msgs \
+        ros-lyrical-object-recognition-msgs ros-lyrical-joint-trajectory-controller \
+        ros-lyrical-forward-command-controller \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Claude dependencies and cleanup
