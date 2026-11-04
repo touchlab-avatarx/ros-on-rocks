@@ -7,8 +7,8 @@
         "--env-file", ".env"  // Edit the .env file to change the ROS2 distribution and domain ID after setup
     ],
   "dockerComposeFile": ["dev.yml"],
-  "runServices": ["dev"],
-  "service": "dev",
+  "runServices": ["dev_lyrical"],
+  "service": "dev_lyrical",
   "shutdownAction": "none", // Don't stop the container when closing the workspace, useful for remote editing and debugging
   "workspaceFolder": "/ros2",
   // Settings for VS Code

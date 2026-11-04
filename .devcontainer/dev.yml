@@ -1,25 +1,26 @@
 services:
-  dev:
+  dev_lyrical:
     ## Image name, make this unique to your project if you want to build multiple devcontainers
     ## on the same system.
     image: ros_${ROS_DISTRO}_image
     ## This is the name of the container that will be created. You can change it to whatever you
     ## want, but make sure it is unique if you are running multiple workspaces on the same system.
     ## This also has to match the "service" and runServices fields in devcontainer.json.
-    container_name: dev
+    container_name: dev_lyrical
     ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
     ## devcontainer. You can change the name of the network if you want, but make sure it is unique
     ## if you are running multiple workspaces on the same system.
     networks:
       - ros2_network
+    ipc: host
     ## Aleternative to the isolated network is to use the host network. This is not recommended,
     ## but it can be useful for debugging. Uncomment the following line to use the host network.
     # network: host
     ## Use the host's X11 server for GUI applications. This is required for ROS 2 GUI applications
     ## to work properly in a devcontainer (e.g. RViz, rqt, ...).
     ## Option for generic GPU:
-    # devices:
-    #  - "/dev/dri:/dev/dri"
+    devices:
+     - "/dev/dri:/dev/dri"
     ## Option for NVidia GPU (default). Requires the NVIDIA driver and NVIDIA Container Toolkit on
     ## the host, otherwise comment this out and use the generic GPU option above.
     deploy:
@@ -58,6 +59,9 @@ services:
       - CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN} # Claude code OAuth token (optional)
       - DISPLAY=${DISPLAY} # Use the host's X11 server for GUI applications
       - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
+      - QT_QPA_PLATFORM=xcb # Use the XCB platform plugin for Qt applications
+      - __NV_PRIME_RENDER_OFFLOAD=1 # Enable NVIDIA Prime Render Offload for hybrid graphics systems
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia # Use the NVIDIA GLX vendor library for hybrid graphics systems
       - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME} # git credentials (optional)
       - GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL} # git credentials (optional)
       - GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME} # git credentials (optional)

@@ -82,6 +82,8 @@ cb() {
 # Add the local bin directory to the PATH so that any user-installed tools are available in the terminal.
 export PATH="$HOME/.local/bin:$PATH"
 
+alias clauded="claude --dangerously-skip-permissions"
+
 
 
 
