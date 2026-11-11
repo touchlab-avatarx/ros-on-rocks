@@ -12,14 +12,15 @@ services:
     ## if you are running multiple workspaces on the same system.
     networks:
       - hestia_lyrical_network
+    ipc: host
     ## Aleternative to the isolated network is to use the host network. This is not recommended,
     ## but it can be useful for debugging. Uncomment the following line to use the host network.
     # network: host
     ## Use the host's X11 server for GUI applications. This is required for ROS 2 GUI applications
     ## to work properly in a devcontainer (e.g. RViz, rqt, ...).
-    ## Option for generic GPU:
-    # devices:
-    #  - "/dev/dri:/dev/dri"
+    ## Option for generic GPU (enabled alongside NVIDIA below for hybrid graphics):
+    devices:
+     - "/dev/dri:/dev/dri"
     ## Option for NVidia GPU (default). Requires the NVIDIA driver and NVIDIA Container Toolkit on
     ## the host, otherwise comment this out and use the generic GPU option above.
     deploy:
@@ -55,8 +56,12 @@ services:
     device_cgroup_rules:
       - "c 188:* rmw"
     environment:
+      - CLAUDE_CODE_OAUTH_TOKEN=${CLAUDE_CODE_OAUTH_TOKEN} # Claude code OAuth token (optional)
       - DISPLAY=${DISPLAY} # Use the host's X11 server for GUI applications
       - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
+      - QT_QPA_PLATFORM=xcb # Use the XCB platform plugin for Qt applications
+      - __NV_PRIME_RENDER_OFFLOAD=1 # Enable NVIDIA Prime Render Offload for hybrid graphics systems
+      - __GLX_VENDOR_LIBRARY_NAME=nvidia # Use the NVIDIA GLX vendor library for hybrid graphics systems
       - GIT_COMMITTER_NAME=${GIT_COMMITTER_NAME} # git credentials (optional)
       - GIT_COMMITTER_EMAIL=${GIT_COMMITTER_EMAIL} # git credentials (optional)
       - GIT_AUTHOR_NAME=${GIT_AUTHOR_NAME} # git credentials (optional)

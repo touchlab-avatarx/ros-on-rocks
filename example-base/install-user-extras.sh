@@ -5,3 +5,4 @@
 echo "🔧 Installing user extras 🔧"
 
 # Install additional software here
+/usr/bin/install-claude

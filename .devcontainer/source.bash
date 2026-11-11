@@ -11,12 +11,6 @@ ws() {
         echo "⚠️  Warning: /opt/ros/$ROS_DISTRO/setup.bash not found"
     fi
 
-    if [ -f "/usr/share/colcon_cd/function/colcon_cd.sh" ]; then
-        source "/usr/share/colcon_cd/function/colcon_cd.sh"
-    else
-        echo "⚠️  Warning: colcon_cd.sh not found"
-    fi
-
     if [ -f "/ros2/install/setup.bash" ]; then
         source "/ros2/install/setup.bash"
     else
@@ -81,6 +75,8 @@ cb() {
 
 # Add the local bin directory to the PATH so that any user-installed tools are available in the terminal.
 export PATH="$HOME/.local/bin:$PATH"
+
+alias clauded="claude --dangerously-skip-permissions"
 
 
 

@@ -49,6 +49,7 @@ RUN touch /home/$USERNAME/.sudo_as_admin_successful
 # If the script does not exist, it will be created as an empty file and will not cause any issues.
 USER root
 RUN touch /install-user-extras.sh && chmod 755 /install-user-extras.sh
+RUN mkdir -p /home/$USERNAME/.claude && chown -R $USERNAME:$USERNAME /home/$USERNAME/.claude
 USER $USERNAME
 RUN /install-user-extras.sh
 USER root
