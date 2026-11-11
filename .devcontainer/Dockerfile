@@ -1,5 +1,5 @@
 # Base image. Change this to an image that has your binary dependencies installed.
-FROM touchlab/ros:jazzy-example-base
+FROM touchlab/ros:hestia_lyrical-base
 
 # Add vscode user with same UID and GID as your host system
 # (copied from https://code.visualstudio.com/remote/advancedcontainers/add-nonroot-user#_creating-a-nonroot-user)
@@ -14,7 +14,7 @@ COPY ros_entrypoint.sh /
 COPY tm /bin/tm
 
 # Add a non-root user to the container and add them to the docker group
-# Tolerates UID/GID collisions with base image users/groups (e.g. ubuntu:1000 on 24.04).
+# Tolerates UID/GID collisions with base image users/groups (e.g. ubuntu:1000 on 24.04/26.04).
 RUN /bin/bash -c "export DOCKER_GID=$DOCKER_GID && source /source.bash && setup_docker_group" \
     && for g in dialout video sudo; do getent group $g >/dev/null || groupadd $g; done \
     && for u in $(getent passwd $USER_UID | cut -d: -f1) $(getent passwd $USERNAME | cut -d: -f1); do \

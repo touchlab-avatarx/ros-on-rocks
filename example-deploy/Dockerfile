@@ -1,12 +1,12 @@
 # Production image: workspace built in Release mode and installed (no symlink install).
-FROM touchlab/ros:jazzy-example-base
+FROM touchlab/ros:hestia_lyrical-base
 
 # Run user baked into the image. Rebuild with --build-arg USER_UID=... if your host UID differs.
 ARG USERNAME=user
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-# Remove the noble "ubuntu" user (it holds UID/GID 1000) and add the run user.
+# Remove the base image "ubuntu" user (it holds UID/GID 1000) and add the run user.
 RUN userdel -r ubuntu 2>/dev/null || true \
     && groupadd --gid $USER_GID $USERNAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m -G dialout,video $USERNAME

@@ -1,13 +1,13 @@
 x-common-parameters: &common-parameters
   ## Image name, make this unique to your project if you want to build multiple devcontainers
   ## on the same system.
-  image: touchlab/ros:jazzy-example-deploy
+  image: touchlab/ros:hestia_lyrical-deploy
   restart: unless-stopped
   ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
   ## devcontainer. You can change the name of the network if you want, but make sure it is unique
   ## if you are running multiple workspaces on the same system.
   networks:
-    - ros2_network
+    - hestia_lyrical_network
   ## Aleternative to the isolated network is to use the host network. This is not recommended,
   ## but it can be useful for debugging. Uncomment the following line to use the host network.
   ## Use the host's X11 server for GUI applications. This is required for ROS 2 GUI applications
@@ -49,7 +49,7 @@ x-common-parameters: &common-parameters
     - DISPLAY=${DISPLAY:-:0} # Use the host's X11 server for GUI applications
     - QT_X11_NO_MITSHM=1 # Workaround for Qt applications to work properly in a devcontainer
     - ROS_DOMAIN_ID=34 # ROS 2 domain ID
-    - ROS_DISTRO=jazzy # ROS 2 distribution
+    - ROS_DISTRO=lyrical # ROS 2 distribution
   stdin_open: true
   tty: true
   command: bash
@@ -57,14 +57,14 @@ x-common-parameters: &common-parameters
 ## Use a named network to isolate ROS 2 communication between containers (not needed if you are
 ## using the host network).
 networks:
-  ros2_network:
+  hestia_lyrical_network:
 
 services:
   hz:
     <<: *common-parameters # Use the common parameters defined above for this service
     ## Use a unique name for this container. This is required for the "depends_on" parameter
     ## below to work properly.
-    container_name: hz
+    container_name: hz_hestia_lyrical_deploy
     ## Use the "depends_on" parameter to ensure that the publisher container is started before the
     ## hz container. This is required for the hz container to work properly.
     depends_on:
@@ -80,7 +80,7 @@ services:
     <<: *common-parameters # Use the common parameters defined above for this service
     ## Use a unique name for this container. This is required for the "depends_on" parameter
     ## below to work properly.
-    container_name: publisher
+    container_name: publisher_hestia_lyrical_deploy
     ## ros2 command
     command: ["ros2", "topic", "pub", "/test", "std_msgs/msg/String", "data: 'Hello'"]
     ## Short wait before forcing node shutdown. This speeds up shutdown if a node or launch file

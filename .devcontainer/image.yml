@@ -11,4 +11,4 @@ services:
     # Image name, make this unique to your project if you want to build multiple devcontainers
     # on the same system.
     # You have to match the name of the image in dev.yml to this name.
-    image: ros_${ROS_DISTRO}_image
+    image: hestia_lyrical_image

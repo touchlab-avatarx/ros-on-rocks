@@ -4,7 +4,7 @@ set -e  # Exit immediately if any command fails
 # Customise the ROS2 distribution and domain ID here. These can also be set in the .env file.
 # These are sensible defaults.
 ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-34}
-ROS_DISTRO=${ROS_DISTRO:-jazzy}
+ROS_DISTRO=${ROS_DISTRO:-lyrical}
 
 # Navigate to script directory (in case it's run from elsewhere)
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )

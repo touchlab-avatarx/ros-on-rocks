@@ -1,17 +1,17 @@
 services:
-  dev:
+  dev_hestia_lyrical:
     ## Image name, make this unique to your project if you want to build multiple devcontainers
     ## on the same system.
-    image: ros_${ROS_DISTRO}_image
+    image: hestia_lyrical_image
     ## This is the name of the container that will be created. You can change it to whatever you
     ## want, but make sure it is unique if you are running multiple workspaces on the same system.
     ## This also has to match the "service" and runServices fields in devcontainer.json.
-    container_name: dev
+    container_name: dev_hestia_lyrical
     ## Isolated network for ROS 2 communication. This is required for ROS 2 to work properly in a
     ## devcontainer. You can change the name of the network if you want, but make sure it is unique
     ## if you are running multiple workspaces on the same system.
     networks:
-      - ros2_network
+      - hestia_lyrical_network
     ## Aleternative to the isolated network is to use the host network. This is not recommended,
     ## but it can be useful for debugging. Uncomment the following line to use the host network.
     # network: host
@@ -74,4 +74,4 @@ volumes:
 ## Use a named network to isolate ROS 2 communication between containers (not needed if you are
 ## using the host network).
 networks:
-  ros2_network:
+  hestia_lyrical_network:

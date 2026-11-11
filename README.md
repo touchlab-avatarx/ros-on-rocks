@@ -54,7 +54,7 @@
    cd my-ros-project
    ```
 
-2. **Build the base image** (tags `touchlab/ros:jazzy-example-base`)
+2. **Build the base image** (tags `touchlab/ros:hestia_lyrical-base`)
    ```bash
    cd example-base && ./build.bash && cd ..
    ```
@@ -109,10 +109,10 @@ ros-on-rocks/
 ### Image chain
 
 ```
-ros:jazzy-ros-base-noble
-  └─ example-base      ──build.bash──▶ touchlab/ros:jazzy-example-base
-       ├─ .devcontainer ──(auto)──────▶ ros_jazzy_image          (dev.yml, example-service)
-       └─ example-deploy ──deploy.sh──▶ touchlab/ros:jazzy-example-deploy
+ros:lyrical-ros-base-resolute
+  └─ example-base      ──build.bash──▶ touchlab/ros:hestia_lyrical-base
+       ├─ .devcontainer ──(auto)──────▶ hestia_lyrical_image      (dev.yml, example-service)
+       └─ example-deploy ──deploy.sh──▶ touchlab/ros:hestia_lyrical-deploy
 ```
 
 Add apt/ROS dependencies to `example-base/Dockerfile`, not to the dev image. Per-user tools go in `example-base/install-user-extras.sh`.
@@ -132,12 +132,12 @@ For tmux sessions inside the container, run `.devcontainer/tm` on the host to pi
 
 ### Services (dev image)
 
-`example-service/compose.yml` runs `publisher` (publishes `"Hello"` on `/test`) and `hz` (`ros2 topic hz /test`) with the workspace mounted. Requires the dev container to have been opened once (image + `.env`).
+`example-service/compose.yml` runs `publisher_hestia_lyrical` (publishes `"Hello"` on `/test`) and `hz_hestia_lyrical` (`ros2 topic hz /test`) with the workspace mounted. Requires the dev container to have been opened once (image + `.env`).
 
 ```bash
 cd example-service && ./start.sh
-docker exec -it publisher ros2 topic echo /test
-docker logs -f hz
+docker exec -it publisher_hestia_lyrical ros2 topic echo /test
+docker logs -f hz_hestia_lyrical
 ./stop.sh
 ```
 
@@ -152,7 +152,7 @@ Add your own services by copying a service block; the shared settings come from 
 cd example-deploy && ./start.sh   # ./stop.sh to stop
 ```
 
-Both examples use the container names `publisher` and `hz`, so stop one before starting the other.
+Deploy containers are suffixed `_deploy`, so both examples can run side by side.
 
 ---
 

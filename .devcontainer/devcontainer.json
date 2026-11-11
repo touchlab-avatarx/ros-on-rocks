@@ -1,14 +1,14 @@
 {
   // Container setup
-  "name": "ros2",  // Name of the devcontainer - change this if you are running multiple containers in the same workspace
+  "name": "hestia_lyrical",  // Name of the devcontainer - change this if you are running multiple containers in the same workspace
   "remoteUser": "user",  // This has to match the user in the Dockerfile
   "initializeCommand": ".devcontainer/build-devcontainer.sh",
   "runArgs": [
         "--env-file", ".env"  // Edit the .env file to change the ROS2 distribution and domain ID after setup
     ],
   "dockerComposeFile": ["dev.yml"],
-  "runServices": ["dev"],
-  "service": "dev",
+  "runServices": ["dev_hestia_lyrical"],
+  "service": "dev_hestia_lyrical",
   "shutdownAction": "none", // Don't stop the container when closing the workspace, useful for remote editing and debugging
   "workspaceFolder": "/ros2",
   // Settings for VS Code

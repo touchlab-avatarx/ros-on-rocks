@@ -1,4 +1,4 @@
-FROM ros:jazzy-ros-base-noble
+FROM ros:lyrical-ros-base-resolute
 
 RUN rosdep update
 
@@ -11,7 +11,15 @@ RUN apt-get update \
 
 # Example ROS dependencies
 RUN apt-get update && apt-get install -y \
-        ros-jazzy-rviz2 ros-jazzy-rviz-common ros-jazzy-rviz-default-plugins \
+        ros-lyrical-rviz2 ros-lyrical-rviz-common ros-lyrical-rviz-default-plugins \
+    && rm -rf /var/lib/apt/lists/*
+
+# hestia dependencies (package.xml + docs)
+RUN apt-get update && apt-get install -y \
+        libeigen3-dev pybind11-dev python3-dev python3-numpy python3-pytest libgtest-dev \
+        python3-sphinx python3-sphinx-rtd-theme \
+        ros-lyrical-pinocchio ros-lyrical-controller-interface ros-lyrical-hardware-interface \
+        ros-lyrical-pluginlib ros-lyrical-ament-cmake-gtest \
     && rm -rf /var/lib/apt/lists/*
 
 # Add user extras script to the image.
